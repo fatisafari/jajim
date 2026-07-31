@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jajim — A Magazine in Five Threads</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== Persistent header (same on every screen) ===== -->
+  <header class="site-header home">
+    <a href="about.html" class="corner corner-left">ABOUT</a>
+    <div class="brand">
+      <span>JAJIM</span>
+      <span>MAGAZINE</span>
+    </div>
+    <a href="category.html?cat=people" class="corner corner-right">CONTENTS</a>
+  </header>
+
+  <!-- ===== HOME : full-bleed loom with dot hotspots ===== -->
+  <section class="cover" id="top">
+    <div class="reveal-layer" id="reveal" aria-hidden="true">
+      <div class="reveal-grid"></div>
+    </div>
+
+    <span class="cover-side">FIVE THREADS</span>
+    <span class="cover-issue">Issue 01 · 2026</span>
+
+    <button class="dot" data-target="people"     style="top:26%; left:30%">(Faces)</button>
+    <button class="dot" data-target="culture"    style="top:60%; left:26%">(Currents)</button>
+    <button class="dot" data-target="experience" style="top:22%; left:64%">(Encounters)</button>
+    <button class="dot" data-target="trend"      style="top:68%; left:66%">(Signals)</button>
+    <button class="dot" data-target="style"      style="top:46%; left:52%">(Threads)</button>
+  </section>
+
+  <script>
+    // ---- Hover-reveal media collage (Readymag-style) ----
+    const reveal = document.getElementById('reveal');
+    const cover  = document.getElementById('top');
+
+    // Each thread: a taped marker label + borderless image blocks anchored
+    // to the screen edges (grid-aligned). slot = tr|bl|bc|tl|mr
+    const threads = {
+      people: {
+        caption: 'FACE TO FACE',
+        tiles: [['media/new2.jpg','tr'], ['media/clip2.mp4','bl']]
+      },
+      culture: {
+        caption: 'THE WIDER WEAVE',
+        tiles: [['media/new1.jpg','tl'], ['media/new4.jpg','mr']]
+      },
+      experience: {
+        caption: 'LIVING LIVE',
+        tiles: [['media/clip1.mp4','tr'], ['media/new4.jpg','bl']]
+      },
+      trend: {
+        caption: 'RIGHT NOW',
+        tiles: [['media/new3.jpg','tr'], ['media/clip2.mp4','bl']]
+      },
+      style: {
+        caption: 'WORN IN',
+        tiles: [['media/clip3.mp4','mr'], ['media/new3.jpg','tl']]
+      }
+    };
+
+    // Pre-build tile + tape-label nodes for every thread (hidden by default).
+    const groups = {};
+    Object.entries(threads).forEach(([key, cfg]) => {
+      const group = document.createElement('div');
+      group.className = 'reveal-group';
+      group.dataset.thread = key;
+
+      cfg.tiles.forEach(([src, slot], i) => {
+        const fig = document.createElement('figure');
+        fig.className = 'reveal-tile ' + slot;
+        fig.style.setProperty('--i', i);
+        let media;
+        if (src.endsWith('.mp4') || src.endsWith('.mov')) {
+          media = document.createElement('video');
+          media.src = src;
+          media.muted = true; media.loop = true;
+          media.playsInline = true;
+          media.preload = 'none';   // fetch only on first hover, not on page load
+          media.setAttribute('muted', '');
+          media.setAttribute('playsinline', '');
+        } else {
+          media = document.createElement('img');
+          media.src = src; media.alt = '';
+        }
+        fig.appendChild(media);
+        group.appendChild(fig);
+      });
+
+      const cap = document.createElement('span');
+      cap.className = 'reveal-caption';
+      cap.textContent = cfg.caption;
+      // Sit the tape label just below-right of this thread's dot.
+      const dot = document.querySelector(`.dot[data-target="${key}"]`);
+      if (dot) {
+        cap.style.left = `calc(${dot.style.left} + 64px)`;
+        cap.style.top  = `calc(${dot.style.top} + 12px)`;
+      }
+      group.appendChild(cap);
+
+      reveal.appendChild(group);
+      groups[key] = group;
+    });
+
+    let active = null;
+    function setPlayback(group, playing) {
+      group.querySelectorAll('video').forEach(v => {
+        if (playing) { v.currentTime = 0; v.play().catch(() => {}); }
+        else v.pause();
+      });
+    }
+    function show(key) {
+      if (active === key) return;
+      if (active) {
+        groups[active].classList.remove('on');
+        setPlayback(groups[active], false);
+      }
+      active = key;
+      cover.classList.add('revealing');
+      groups[key].classList.add('on');
+      setPlayback(groups[key], true);
+    }
+    function hide() {
+      if (active) {
+        groups[active].classList.remove('on');
+        setPlayback(groups[active], false);
+      }
+      active = null;
+      cover.classList.remove('revealing');
+    }
+
+    // Touch devices have no hover: first tap previews, second tap opens.
+    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches
+                    || new URLSearchParams(location.search).has('touch');
+
+    document.querySelectorAll('.dot').forEach(btn => {
+      const key = btn.dataset.target;
+      if (!isTouch) {
+        btn.addEventListener('mouseenter', () => show(key));
+        btn.addEventListener('focus',      () => show(key));
+      }
+      btn.addEventListener('click', () => {
+        if (isTouch && active !== key) { show(key); return; }
+        location.href = 'category.html?cat=' + key;
+      });
+    });
+    cover.addEventListener('mouseleave', hide);
+    if (isTouch) {
+      cover.addEventListener('click', e => {
+        if (!e.target.closest('.dot')) hide();
+      });
+    }
+  </script>
+
+</body>
+</html>

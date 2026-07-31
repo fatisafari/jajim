@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Category — Jajim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="about.html" class="corner corner-left">ABOUT</a>
+    <div class="brand"><span>JAJIM</span><span>MAGAZINE</span></div>
+    <a href="index.html#contents" class="corner corner-right">CONTENTS</a>
+  </header>
+
+  <main class="page">
+    <a href="index.html" class="back">← Index</a>
+    <span class="page-eyebrow" id="cat-eyebrow">Section</span>
+    <h1 class="page-title" id="cat-title">Music <span class="sticker" id="cat-sticker">sound</span></h1>
+    <p class="page-lede" id="cat-desc"></p>
+
+    <ul class="story-list" id="cat-list"></ul>
+  </main>
+
+  <footer class="page-footer">
+    <p class="mark">Made by hand, mostly.</p>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="#">Newsletter</a>
+      <a href="#">Instagram</a>
+    </div>
+    <p class="copy">© 2026 Jajim Magazine — woven in five threads.</p>
+  </footer>
+
+  <script>
+    const data = {
+      people: {
+        title: 'Faces', eyebrow: '(Section · One)', sticker: 'people',
+        desc: 'The people behind the work — portraits, conversations, and the small histories that quietly shape a life.',
+        posts: [
+          ['The woman who paints with rugs', 'Profile', '10 min'],
+          ['A tailor who only takes ten clients a year', 'Profile', '11 min'],
+          ['The baker who never owned a watch', 'Portrait', '9 min'],
+          ['A cook on the politics of feeding strangers', 'Interview', '12 min'],
+          ['Three lives measured in small rooms', 'Essay', '6 min'],
+          ['The translator who keeps disappearing', 'Profile', '13 min'],
+        ]
+      },
+      culture: {
+        title: 'Currents', eyebrow: '(Section · Two)', sticker: 'culture',
+        desc: 'The wider weave — books, films, cities, ideas and the small public rituals that hold a place together.',
+        posts: [
+          ['How a small bookshop became the loudest room', 'Long read', '22 min'],
+          ['Twelve ways to read a city after midnight', 'Essay', '3 min'],
+          ['A quiet defence of slow cinema', 'Film', '9 min'],
+          ['Five short novels for one long evening', 'Books', '5 min'],
+          ['A weekend at a festival no one had heard of', 'Dispatch', '11 min'],
+          ['The rituals we keep without noticing', 'Essay', '7 min'],
+        ]
+      },
+      experience: {
+        title: 'Encounters', eyebrow: '(Section · Three)', sticker: 'lived',
+        desc: 'Things lived, not just observed — places, nights, journeys, and the moments that refuse to be planned.',
+        posts: [
+          ['A night in the basement venues keeping a scene alive', 'Reportage', '14 min'],
+          ['The slow art of getting pleasantly lost', 'Essay', '6 min'],
+          ['One platform, four hours, a hundred strangers', 'Field notes', '8 min'],
+          ['What a long walk does to an argument', 'Essay', '5 min'],
+          ['A morning at the oldest sandwich stand', 'Reportage', '8 min'],
+          ['Crowds, and the strange comfort of them', 'Essay', '7 min'],
+        ]
+      },
+      trend: {
+        title: 'Signals', eyebrow: '(Section · Four)', sticker: 'now',
+        desc: 'What the present is trying to tell us — the small shifts, the early signs, the things about to matter.',
+        posts: [
+          ['The slow return of the cassette tape', 'Interview', '12 min'],
+          ['Why everyone suddenly wants less', 'Essay', '6 min'],
+          ['The quiet comeback of the handwritten thing', 'Trend', '5 min'],
+          ['Three small records that deserve a bigger room', 'Review', '5 min'],
+          ['On dressing for nobody in particular', 'Essay', '7 min'],
+          ['Six makers we are watching this season', 'Field notes', '7 min'],
+        ]
+      },
+      style: {
+        title: 'Threads', eyebrow: '(Section · Five)', sticker: 'worn',
+        desc: 'Clothes as language, closets as archives. What people wear and, more than that, why they chose to.',
+        posts: [
+          ["What your grandmother's coat is trying to tell you", 'Essay', '8 min'],
+          ['Forty-two outfits in a city that doesn\'t care', 'Photo essay', '18 min'],
+          ['The slow death of the perfectly fitted thing', 'Trend', '6 min'],
+          ['A short manual for keeping a sweater ten years', 'How-to', '4 min'],
+          ['On dressing for the weather of your mood', 'Essay', '5 min'],
+          ['The tailor who only takes ten clients a year', 'Profile', '11 min'],
+        ]
+      }
+    };
+
+    const cat = new URLSearchParams(location.search).get('cat') || 'people';
+    const d = data[cat] || data.people;
+
+    document.title = d.title + ' — Jajim';
+    document.getElementById('cat-eyebrow').textContent = d.eyebrow;
+    document.getElementById('cat-title').firstChild.textContent = d.title + ' ';
+    document.getElementById('cat-sticker').textContent = d.sticker;
+    document.getElementById('cat-desc').textContent = d.desc;
+
+    document.getElementById('cat-list').innerHTML = d.posts.map(([title, type, time], i) => `
+      <li class="story-item" onclick="location.href='article.html?cat=${cat}'">
+        <span class="story-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="story-name">${title}</span>
+        <span class="story-cat">${type} · ${time}</span>
+        <span class="story-arrow">→</span>
+      </li>
+    `).join('');
+  </script>
+</body>
+</html>
