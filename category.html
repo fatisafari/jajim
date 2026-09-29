@@ -24,6 +24,7 @@
     <p class="page-lede" id="cat-desc"></p>
 
     <ul class="story-list" id="cat-list"></ul>
+    <section class="encounter-grid" id="encounter-grid" hidden aria-label="Encounters stories"></section>
   </main>
 
   <footer class="page-footer">
@@ -72,7 +73,33 @@
           ['One platform, four hours, a hundred strangers', 'Field notes', '8 min'],
           ['What a long walk does to an argument', 'Essay', '5 min'],
           ['A morning at the oldest sandwich stand', 'Reportage', '8 min'],
-          ['Crowds, and the strange comfort of them', 'Essay', '7 min'],
+        ],
+        cards: [
+          {
+            title: 'A night in the basement venues keeping a scene alive',
+            type: 'Reportage', time: '14 min', image: 'media/new4.jpg',
+            summary: 'Down a narrow staircase, a small room fills with strangers, feedback and sweat. A night inside the venues that survive because people keep showing up.'
+          },
+          {
+            title: 'The slow art of getting pleasantly lost',
+            type: 'Essay', time: '6 min', image: 'media/new1.jpg',
+            summary: 'What changes when you stop checking the map? A walk through unfamiliar streets, accidental cafés and the pleasure of not knowing what comes next.'
+          },
+          {
+            title: 'One platform, four hours, a hundred strangers',
+            type: 'Field notes', time: '8 min', image: 'media/new2.jpg',
+            summary: 'A delayed train turns a platform into a temporary neighbourhood — shared snacks, overheard stories and brief connections between people going elsewhere.'
+          },
+          {
+            title: 'What a long walk does to an argument',
+            type: 'Essay', time: '5 min', image: 'media/new3.jpg',
+            summary: 'Some conversations change when nobody has to sit still. Two people, one disagreement and the strange way a city can make room for a softer ending.'
+          },
+          {
+            title: 'A morning at the oldest sandwich stand',
+            type: 'Reportage', time: '8 min', image: 'cover-home.jpg',
+            summary: 'Before the city fully wakes, the grill is already hot. We spend a morning with regulars, workers and the family keeping an old counter alive.'
+          }
         ]
       },
       trend: {
@@ -110,14 +137,67 @@
     document.getElementById('cat-sticker').textContent = d.sticker;
     document.getElementById('cat-desc').textContent = d.desc;
 
-    document.getElementById('cat-list').innerHTML = d.posts.map(([title, type, time], i) => `
-      <li class="story-item" onclick="location.href='article.html?cat=${cat}'">
-        <span class="story-num">${String(i+1).padStart(2,'0')}</span>
-        <span class="story-name">${title}</span>
-        <span class="story-cat">${type} · ${time}</span>
-        <span class="story-arrow">→</span>
-      </li>
-    `).join('');
+    const storyList = document.getElementById('cat-list');
+    const encounterGrid = document.getElementById('encounter-grid');
+
+    if (cat === 'experience' && d.cards) {
+      storyList.hidden = true;
+      encounterGrid.hidden = false;
+
+      encounterGrid.innerHTML = d.cards.map((card, i) => `
+        <article class="flip-card" tabindex="0" role="button" aria-pressed="false" aria-label="Flip card: ${card.title}">
+          <div class="flip-card-inner">
+            <div class="flip-card-face flip-card-front">
+              <img src="${card.image}" alt="" loading="lazy">
+              <div class="flip-card-shade"></div>
+              <span class="flip-card-num">${String(i + 1).padStart(2, '0')}</span>
+              <div class="flip-card-front-copy">
+                <span class="flip-card-meta">${card.type} · ${card.time}</span>
+                <h2>${card.title}</h2>
+                <span class="flip-card-hint">Click to turn ↻</span>
+              </div>
+            </div>
+
+            <div class="flip-card-face flip-card-back">
+              <span class="flip-card-num">${String(i + 1).padStart(2, '0')}</span>
+              <span class="flip-card-meta">Encounters · ${card.type}</span>
+              <h2>${card.title}</h2>
+              <p>${card.summary}</p>
+              <a class="flip-card-read" href="article.html?cat=experience">Read story →</a>
+              <span class="flip-card-hint">Click again to turn back ↺</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+
+      encounterGrid.querySelectorAll('.flip-card').forEach(card => {
+        const toggleCard = () => {
+          const isFlipped = card.classList.toggle('is-flipped');
+          card.setAttribute('aria-pressed', String(isFlipped));
+        };
+
+        card.addEventListener('click', event => {
+          if (event.target.closest('.flip-card-read')) return;
+          toggleCard();
+        });
+
+        card.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleCard();
+          }
+        });
+      });
+    } else {
+      storyList.innerHTML = d.posts.map(([title, type, time], i) => `
+        <li class="story-item" onclick="location.href='article.html?cat=${cat}'">
+          <span class="story-num">${String(i+1).padStart(2,'0')}</span>
+          <span class="story-name">${title}</span>
+          <span class="story-cat">${type} · ${time}</span>
+          <span class="story-arrow">→</span>
+        </li>
+      `).join('');
+    }
   </script>
 </body>
 </html>
