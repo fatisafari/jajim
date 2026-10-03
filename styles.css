@@ -1033,3 +1033,32 @@ a { color: inherit; text-decoration: none; }
     transition-duration: .01ms !important;
   }
 }
+
+
+/* ===== TOUCH COVER BEHAVIOR =====
+   Tag: mobile cover simplification
+   Description: Phones/tablets never show hover preview images or GIFs.
+   Tapping a section dot navigates directly to that category. */
+@media (hover: none), (pointer: coarse) {
+  .reveal-layer,
+  .reveal-grid,
+  .reveal-group,
+  .reveal-tile,
+  .reveal-caption {
+    display: none !important;
+  }
+
+  .cover.revealing::after {
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,.82) 0%,
+      rgba(0,0,0,.18) 15%,
+      rgba(10,10,10,.22) 45%,
+      rgba(10,10,10,.6) 100%
+    );
+  }
+
+  .dot {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
