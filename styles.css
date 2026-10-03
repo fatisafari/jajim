@@ -1062,3 +1062,64 @@ a { color: inherit; text-decoration: none; }
     -webkit-tap-highlight-color: transparent;
   }
 }
+
+
+/* ===== MOBILE COVER PREVIEW =====
+   Tag: mobile preview parity
+   Description: Touch devices keep the editorial preview + grid.
+   Dots stay above previews so users can switch sections, and JavaScript
+   closes each preview automatically after five seconds. */
+@media (max-width: 760px) {
+  .reveal-layer {
+    display: block !important;
+    z-index: 4;
+  }
+
+  .reveal-grid {
+    display: block !important;
+    background-size: 18vw 18vw;
+    z-index: 8;
+  }
+
+  .reveal-group,
+  .reveal-tile,
+  .reveal-caption {
+    display: block !important;
+  }
+
+  .dot {
+    z-index: 20;
+  }
+
+  .cover.revealing .dot {
+    background: rgba(0,0,0,.42);
+    border-radius: 999px;
+    padding-right: 12px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+
+  .cover.revealing .dot::before {
+    left: 10px;
+  }
+
+  .reveal-caption {
+    z-index: 10;
+  }
+}
+
+/* Touch devices should show previews rather than hiding them. */
+@media (hover: none), (pointer: coarse) {
+  .reveal-layer,
+  .reveal-grid,
+  .reveal-group,
+  .reveal-tile,
+  .reveal-caption {
+    display: block !important;
+  }
+
+  .dot {
+    z-index: 20;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
