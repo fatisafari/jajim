@@ -70,6 +70,7 @@
     // Pre-build tile + tape-label nodes for every thread (hidden by default).
     const groups = {};
     Object.entries(threads).forEach(([key, cfg]) => {
+      if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
       const group = document.createElement('div');
       group.className = 'reveal-group';
       group.dataset.thread = key;
@@ -137,7 +138,8 @@
       cover.classList.remove('revealing');
     }
 
-    // Touch devices have no hover: first tap previews, second tap opens.
+    // Tag: Mobile navigation
+    // Description: Phones use one tap to open a section; desktop keeps hover previews.
     const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches
                     || new URLSearchParams(location.search).has('touch');
 
@@ -148,7 +150,6 @@
         btn.addEventListener('focus',      () => show(key));
       }
       btn.addEventListener('click', () => {
-        if (isTouch && active !== key) { show(key); return; }
         location.href = 'category.html?cat=' + key;
       });
     });
