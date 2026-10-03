@@ -732,3 +732,304 @@ a { color: inherit; text-decoration: none; }
     font-size: clamp(28px, 9vw, 40px);
   }
 }
+
+
+/* ===== MOBILE UX PASS =====
+   Tag: mobile usability
+   Description: Larger tap targets, safer spacing, readable article text,
+   and simpler one-column layouts on phones without changing desktop styling. */
+@media (max-width: 760px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Keep navigation clear of phone notches and give links a 44px tap area. */
+  .site-header {
+    padding:
+      calc(12px + env(safe-area-inset-top))
+      calc(14px + env(safe-area-inset-right))
+      12px
+      calc(14px + env(safe-area-inset-left));
+    align-items: center;
+    background: rgba(236, 234, 229, .92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(17,17,17,.07);
+  }
+
+  .site-header.home {
+    padding:
+      calc(14px + env(safe-area-inset-top))
+      calc(14px + env(safe-area-inset-right))
+      14px
+      calc(14px + env(safe-area-inset-left));
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 0;
+  }
+
+  .corner {
+    min-height: 44px;
+    min-width: 64px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+  }
+
+  .corner-right {
+    justify-content: flex-end;
+  }
+
+  .brand {
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  /* Homepage: prioritize tapping a section over desktop-style hover effects. */
+  .cover {
+    min-height: 100svh;
+    background-position: 50% center;
+  }
+
+  .reveal-layer {
+    display: none;
+  }
+
+  .dot {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 12px 10px 12px 28px;
+    font-size: 11px;
+    line-height: 1.2;
+    touch-action: manipulation;
+  }
+
+  .dot::before {
+    left: 10px;
+    width: 11px;
+    height: 11px;
+  }
+
+  /* Inner pages: less empty space before the content on a phone. */
+  .page {
+    padding:
+      calc(118px + env(safe-area-inset-top))
+      20px
+      72px;
+  }
+
+  .back {
+    margin-bottom: 42px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .page-eyebrow {
+    font-size: 11px;
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-size: clamp(42px, 15vw, 72px);
+    line-height: .94;
+    overflow-wrap: anywhere;
+    margin-bottom: 22px;
+  }
+
+  .page-title .sticker {
+    margin-top: 8px;
+  }
+
+  .page-lede {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .byline {
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 24px;
+  }
+
+  /* Story rows become clear stacked mobile cards/rows. */
+  .story-list {
+    margin-top: 56px;
+  }
+
+  .story-item {
+    grid-template-columns: 28px 1fr;
+    gap: 8px 12px;
+    padding: 22px 0;
+    min-height: 88px;
+    touch-action: manipulation;
+  }
+
+  .story-name {
+    font-size: 22px;
+    line-height: 1.08;
+  }
+
+  .story-cat {
+    grid-column: 2;
+    font-size: 11px;
+    white-space: normal;
+  }
+
+  /* Long-form reading: use the sans font on small screens for comfort. */
+  .doc {
+    margin-top: 58px;
+  }
+
+  .doc p {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.72;
+    margin-bottom: 24px;
+  }
+
+  .doc h2 {
+    margin: 54px 0 20px;
+    font-size: 28px;
+    line-height: 1.05;
+  }
+
+  .doc blockquote {
+    margin: 52px 0;
+    padding-left: 18px;
+    font-size: 26px;
+    line-height: 1.18;
+  }
+
+  .list-head {
+    font-size: 38px;
+    line-height: 1;
+  }
+
+  /* Encounters: one large, thumb-friendly card per row. */
+  .encounter-grid {
+    margin-top: 56px;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .encounter-grid .flip-card:nth-child(3) {
+    grid-column: auto;
+  }
+
+  .flip-card,
+  .flip-card-inner {
+    min-height: min(68svh, 540px);
+  }
+
+  .flip-card-face {
+    border-radius: 14px;
+  }
+
+  .flip-card-front-copy {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .flip-card-num {
+    top: 18px;
+    left: 20px;
+  }
+
+  .flip-card-face h2 {
+    font-size: clamp(27px, 8.6vw, 38px);
+    line-height: 1;
+  }
+
+  .flip-card-meta,
+  .flip-card-hint {
+    font-size: 11px;
+  }
+
+  .flip-card-hint {
+    margin-top: 16px;
+  }
+
+  .flip-card-back {
+    padding: 58px 22px 22px;
+  }
+
+  .flip-card-back p {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-top: 20px;
+  }
+
+  .flip-card-read {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding-top: 16px;
+    font-size: 12px;
+  }
+
+  .page-footer {
+    padding:
+      64px
+      calc(18px + env(safe-area-inset-right))
+      calc(36px + env(safe-area-inset-bottom))
+      calc(18px + env(safe-area-inset-left));
+  }
+
+  .page-footer .links {
+    gap: 4px 14px;
+  }
+
+  .page-footer .links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .page-footer .copy {
+    line-height: 1.6;
+  }
+}
+
+/* Small phones: reduce header crowding and title size a little more. */
+@media (max-width: 390px) {
+  .corner {
+    min-width: 56px;
+    font-size: 9px;
+  }
+
+  .brand {
+    font-size: 13px;
+  }
+
+  .page {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .page-title {
+    font-size: clamp(38px, 14vw, 58px);
+  }
+
+  .dot {
+    font-size: 10px;
+  }
+}
+
+/* Respect people who prefer less animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
