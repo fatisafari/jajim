@@ -67,10 +67,18 @@
       }
     };
 
-    // Pre-build tile + tape-label nodes for every thread (hidden by default).
+    // Tag: Mobile preview guard
+    // Description: Embedded mobile browsers do not always report hover/pointer
+    // capabilities consistently, so maxTouchPoints is used as a second check.
+    const isTouch =
+      window.matchMedia('(hover: none), (pointer: coarse)').matches ||
+      navigator.maxTouchPoints > 0 ||
+      new URLSearchParams(location.search).has('touch');
+
+    // Pre-build preview media only on desktop.
     const groups = {};
     Object.entries(threads).forEach(([key, cfg]) => {
-      if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+      if (isTouch) return;
       const group = document.createElement('div');
       group.className = 'reveal-group';
       group.dataset.thread = key;
@@ -140,9 +148,6 @@
 
     // Tag: Mobile navigation
     // Description: Phones use one tap to open a section; desktop keeps hover previews.
-    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches
-                    || new URLSearchParams(location.search).has('touch');
-
     document.querySelectorAll('.dot').forEach(btn => {
       const key = btn.dataset.target;
       if (!isTouch) {
@@ -153,11 +158,8 @@
         location.href = 'category.html?cat=' + key;
       });
     });
-    cover.addEventListener('mouseleave', hide);
-    if (isTouch) {
-      cover.addEventListener('click', e => {
-        if (!e.target.closest('.dot')) hide();
-      });
+    if (!isTouch) {
+      cover.addEventListener('mouseleave', hide);
     }
   </script>
 
