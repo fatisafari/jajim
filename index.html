@@ -75,10 +75,9 @@
       navigator.maxTouchPoints > 0 ||
       new URLSearchParams(location.search).has('touch');
 
-    // Pre-build preview media only on desktop.
+    // Pre-build preview media for desktop and touch devices.
     const groups = {};
     Object.entries(threads).forEach(([key, cfg]) => {
-      if (isTouch) return;
       const group = document.createElement('div');
       group.className = 'reveal-group';
       group.dataset.thread = key;
@@ -120,46 +119,92 @@
     });
 
     let active = null;
+    let previewTimer = null;
+
     function setPlayback(group, playing) {
+      if (!group) return;
       group.querySelectorAll('video').forEach(v => {
         if (playing) { v.currentTime = 0; v.play().catch(() => {}); }
         else v.pause();
       });
     }
+
+    function clearPreviewTimer() {
+      if (previewTimer) {
+        clearTimeout(previewTimer);
+        previewTimer = null;
+      }
+    }
+
+    function schedulePreviewClose() {
+      clearPreviewTimer();
+      if (isTouch) {
+        previewTimer = setTimeout(hide, 5000);
+      }
+    }
+
     function show(key) {
-      if (active === key) return;
-      if (active) {
+      if (!groups[key]) return;
+
+      if (active && active !== key) {
         groups[active].classList.remove('on');
         setPlayback(groups[active], false);
       }
+
       active = key;
       cover.classList.add('revealing');
       groups[key].classList.add('on');
       setPlayback(groups[key], true);
+      schedulePreviewClose();
     }
+
     function hide() {
-      if (active) {
+      clearPreviewTimer();
+
+      if (active && groups[active]) {
         groups[active].classList.remove('on');
         setPlayback(groups[active], false);
       }
+
       active = null;
       cover.classList.remove('revealing');
     }
 
-    // Tag: Mobile navigation
-    // Description: Phones use one tap to open a section; desktop keeps hover previews.
+    // Tag: Cover navigation
+    // Description: Desktop uses hover preview. On touch devices the first tap
+    // previews for up to 5 seconds; tapping the same dot again opens the section.
     document.querySelectorAll('.dot').forEach(btn => {
       const key = btn.dataset.target;
+
       if (!isTouch) {
         btn.addEventListener('mouseenter', () => show(key));
-        btn.addEventListener('focus',      () => show(key));
+        btn.addEventListener('focus', () => show(key));
       }
-      btn.addEventListener('click', () => {
-        location.href = 'category.html?cat=' + key;
+
+      btn.addEventListener('click', event => {
+        if (!isTouch) {
+          location.href = 'category.html?cat=' + key;
+          return;
+        }
+
+        event.stopPropagation();
+
+        if (active === key) {
+          location.href = 'category.html?cat=' + key;
+          return;
+        }
+
+        show(key);
       });
     });
+
     if (!isTouch) {
       cover.addEventListener('mouseleave', hide);
+    } else {
+      // Tapping the cover away from a dot closes the preview immediately.
+      cover.addEventListener('click', event => {
+        if (!event.target.closest('.dot')) hide();
+      });
     }
   </script>
 
