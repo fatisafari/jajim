@@ -139,6 +139,7 @@
 
     const storyList = document.getElementById('cat-list');
     const encounterGrid = document.getElementById('encounter-grid');
+    const touchLabel = window.matchMedia('(hover: none), (pointer: coarse)').matches ? 'Tap' : 'Click';
 
     if (cat === 'experience' && d.cards) {
       storyList.hidden = true;
@@ -154,7 +155,7 @@
               <div class="flip-card-front-copy">
                 <span class="flip-card-meta">${card.type} · ${card.time}</span>
                 <h2>${card.title}</h2>
-                <span class="flip-card-hint">Click to turn ↻</span>
+                <span class="flip-card-hint">${touchLabel} to turn ↻</span>
               </div>
             </div>
 
@@ -164,7 +165,7 @@
               <h2>${card.title}</h2>
               <p>${card.summary}</p>
               <a class="flip-card-read" href="article.html?cat=experience">Read story →</a>
-              <span class="flip-card-hint">Click again to turn back ↺</span>
+              <span class="flip-card-hint">${touchLabel} again to turn back ↺</span>
             </div>
           </div>
         </article>
