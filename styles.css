@@ -1282,3 +1282,31 @@ a { color: inherit; text-decoration: none; }
     height: 23svh;
   }
 }
+
+
+/* ===== DESKTOP DOT-ANCHORED REVEAL =====
+   Tag: desktop anchored preview
+   Description: On mouse/desktop screens, each section preview expands outward
+   from that section's own dot. First click locks it; second click opens it.
+   Mobile rules below remain unchanged. */
+@media (min-width: 761px) and (hover: hover) and (pointer: fine) {
+  .reveal-group {
+    clip-path: circle(0 at var(--anchor-x, 50%) var(--anchor-y, 50%));
+    transition:
+      clip-path .7s cubic-bezier(.2,.75,.2,1),
+      opacity .25s ease;
+  }
+
+  .reveal-group.on {
+    clip-path: circle(145% at var(--anchor-x, 50%) var(--anchor-y, 50%));
+  }
+
+  /* The selected point stays visually present over the revealed media. */
+  .cover.desktop-previewing .dot {
+    z-index: 12;
+  }
+
+  .cover.desktop-previewing .dot[data-target] {
+    transition: opacity .2s ease, transform .2s ease;
+  }
+}
