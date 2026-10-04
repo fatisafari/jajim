@@ -1200,3 +1200,85 @@ a { color: inherit; text-decoration: none; }
     z-index: 5;
   }
 }
+
+
+/* ===== CENTERED MOBILE PREVIEW =====
+   Tag: centered touch preview
+   Description: On phones, the selected section stays exactly in the center.
+   Preview media appears around it in section-specific positions.
+   JavaScript restores the original five-dot cover after 10 seconds. */
+@media (max-width: 760px) {
+  .cover.touch-previewing .dot.is-active {
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 30;
+    opacity: 1;
+    max-width: calc(100vw - 48px);
+    min-height: 48px;
+    padding: 12px 18px 12px 36px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .cover.touch-previewing .reveal-tile {
+    width: 52vw;
+    height: 25svh;
+    max-height: 250px;
+    transform: none !important;
+  }
+
+  .reveal-group[data-thread="people"] .reveal-tile:nth-of-type(1) {
+    top: 8%; right: 0; left: auto; bottom: auto;
+  }
+  .reveal-group[data-thread="people"] .reveal-tile:nth-of-type(2) {
+    top: auto; left: 0; right: auto; bottom: 5%;
+  }
+
+  .reveal-group[data-thread="culture"] .reveal-tile:nth-of-type(1) {
+    top: 9%; left: 0; right: auto; bottom: auto;
+  }
+  .reveal-group[data-thread="culture"] .reveal-tile:nth-of-type(2) {
+    top: auto; right: 0; left: auto; bottom: 6%;
+  }
+
+  .reveal-group[data-thread="experience"] .reveal-tile:nth-of-type(1) {
+    top: 7%; right: 0; left: auto; bottom: auto;
+    width: 58vw; height: 27svh;
+  }
+  .reveal-group[data-thread="experience"] .reveal-tile:nth-of-type(2) {
+    top: auto; left: 0; right: auto; bottom: 7%;
+    width: 46vw; height: 23svh;
+  }
+
+  .reveal-group[data-thread="trend"] .reveal-tile:nth-of-type(1) {
+    top: 7%; left: 0; right: auto; bottom: auto;
+    width: 48vw;
+  }
+  .reveal-group[data-thread="trend"] .reveal-tile:nth-of-type(2) {
+    top: auto; right: 0; left: auto; bottom: 5%;
+    width: 56vw;
+  }
+
+  .reveal-group[data-thread="style"] .reveal-tile:nth-of-type(1) {
+    top: 9%; right: 0; left: auto; bottom: auto;
+    width: 48vw;
+  }
+  .reveal-group[data-thread="style"] .reveal-tile:nth-of-type(2) {
+    top: auto; left: 0; right: auto; bottom: 6%;
+    width: 56vw;
+  }
+}
+
+@media (max-width: 390px) {
+  .cover.touch-previewing .dot.is-active {
+    max-width: calc(100vw - 32px);
+    font-size: 11px;
+  }
+
+  .cover.touch-previewing .reveal-tile {
+    height: 23svh;
+  }
+}
