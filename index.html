@@ -140,7 +140,7 @@
     function schedulePreviewClose() {
       clearPreviewTimer();
       if (isTouch) {
-        previewTimer = setTimeout(hide, 5000);
+        previewTimer = setTimeout(hide, 10000);
       }
     }
 
@@ -183,7 +183,7 @@
 
     // Tag: Cover navigation
     // Description: Desktop uses hover preview. On touch devices the first tap
-    // previews for up to 5 seconds; tapping the same dot again opens the section.
+    // previews for up to 10 seconds; tapping the same dot again opens the section.
     dots.forEach(btn => {
       const key = btn.dataset.target;
 
