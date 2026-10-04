@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261004-2" />
+  <link rel="stylesheet" href="styles.css?v=20261004-3" />
 </head>
 <body>
 
@@ -111,6 +111,12 @@
       if (dot) {
         cap.style.left = `calc(${dot.style.left} + 64px)`;
         cap.style.top  = `calc(${dot.style.top} + 12px)`;
+
+        // Tag: Desktop preview anchor
+        // Description: Store the section dot position so the desktop reveal
+        // can visually expand outward from the exact point the user selected.
+        group.style.setProperty('--anchor-x', dot.style.left);
+        group.style.setProperty('--anchor-y', dot.style.top);
       }
       group.appendChild(cap);
 
@@ -121,6 +127,7 @@
     const dots = [...document.querySelectorAll('.dot')];
     let active = null;
     let previewTimer = null;
+    let desktopLocked = false;
 
     function setPlayback(group, playing) {
       if (!group) return;
@@ -178,27 +185,43 @@
       active = null;
       cover.classList.remove('revealing');
       cover.classList.remove('touch-previewing');
+      cover.classList.remove('desktop-previewing');
       dots.forEach(dot => dot.classList.remove('is-active'));
+      desktopLocked = false;
     }
 
     // Tag: Cover navigation
-    // Description: Desktop uses hover preview. On touch devices the first tap
-    // previews for up to 10 seconds; tapping the same dot again opens the section.
+    // Description:
+    // Desktop: hover previews from the dot. First click locks that preview in
+    // place; clicking the same dot again opens its category.
+    // Mobile: first tap previews for 10 seconds; second tap opens the category.
     dots.forEach(btn => {
       const key = btn.dataset.target;
 
       if (!isTouch) {
-        btn.addEventListener('mouseenter', () => show(key));
-        btn.addEventListener('focus', () => show(key));
+        btn.addEventListener('mouseenter', () => {
+          if (!desktopLocked) show(key);
+        });
+
+        btn.addEventListener('focus', () => {
+          if (!desktopLocked) show(key);
+        });
       }
 
       btn.addEventListener('click', event => {
+        event.stopPropagation();
+
         if (!isTouch) {
-          location.href = 'category.html?cat=' + key;
+          if (desktopLocked && active === key) {
+            location.href = 'category.html?cat=' + key;
+            return;
+          }
+
+          desktopLocked = true;
+          cover.classList.add('desktop-previewing');
+          show(key);
           return;
         }
-
-        event.stopPropagation();
 
         if (active === key) {
           location.href = 'category.html?cat=' + key;
@@ -210,7 +233,14 @@
     });
 
     if (!isTouch) {
-      cover.addEventListener('mouseleave', hide);
+      cover.addEventListener('mouseleave', () => {
+        if (!desktopLocked) hide();
+      });
+
+      // Clicking empty cover space releases a locked desktop preview.
+      cover.addEventListener('click', event => {
+        if (desktopLocked && !event.target.closest('.dot')) hide();
+      });
     } else {
       // Tapping the cover away from a dot closes the preview immediately.
       cover.addEventListener('click', event => {
