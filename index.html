@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261004-3" />
+  <link rel="stylesheet" href="styles.css?v=20261004-4" />
 </head>
 <body>
 
@@ -163,11 +163,15 @@
       cover.classList.add('revealing');
       groups[key].classList.add('on');
 
+      // Tag: Active section marker
+      // Description: Keep the selected dot above its preview on both desktop
+      // and mobile so the reveal clearly belongs to that section.
+      dots.forEach(dot => {
+        dot.classList.toggle('is-active', dot.dataset.target === key);
+      });
+
       if (isTouch) {
         cover.classList.add('touch-previewing');
-        dots.forEach(dot => {
-          dot.classList.toggle('is-active', dot.dataset.target === key);
-        });
       }
 
       setPlayback(groups[key], true);
