@@ -67,7 +67,7 @@ a { color: inherit; text-decoration: none; }
   height: 100vh;
   height: 100svh;
   width: 100%;
-  background: #1a1a1a url('cover-home.jpg') center / cover no-repeat;
+  background: #1a1a1a url('media/jajim-cover-desktop.jpg') center / cover no-repeat;
 }
 .cover::after {                       /* desaturate + darken, B&W mood */
   content: "";
@@ -1398,5 +1398,19 @@ a { color: inherit; text-decoration: none; }
 
   .cover.revealing .dot[data-target="experience"].is-active {
     z-index: 40 !important;
+  }
+}
+
+
+/* ===== RESPONSIVE JAJIM COVER =====
+   Tag: responsive homepage background
+   Description: Desktop uses the wide cover; phones use the portrait cover
+   so the people and objects stay visible without an aggressive crop. */
+@media (max-width: 760px) {
+  .cover {
+    background-image: url('media/jajim-cover-mobile.svg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 }
