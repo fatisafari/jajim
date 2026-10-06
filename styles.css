@@ -1414,3 +1414,18 @@ a { color: inherit; text-decoration: none; }
     background-repeat: no-repeat;
   }
 }
+
+
+/* ===== MOBILE REVEAL DARKENING =====
+   Tag: mobile preview darkness
+   Description: Match the desktop dark overlay while a mobile preview/grid is open. */
+@media (max-width: 760px) {
+  .cover.revealing::after {
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,.78) 0%,
+      rgba(0,0,0,.50) 40%,
+      rgba(0,0,0,.70) 100%
+    ) !important;
+  }
+}
