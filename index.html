@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261103-hotspots" />
+  <link rel="stylesheet" href="styles.css?v=20261103-mobile-image-anchors" />
 </head>
 <body>
 
@@ -27,11 +27,22 @@
       <div class="reveal-grid"></div>
     </div>
 
-    <button class="dot" data-target="people"     style="top:12%; left:19%">People</button>
-    <button class="dot" data-target="culture"    style="top:22%; left:38%">Culture</button>
-    <button class="dot" data-target="experience" style="top:29%; left:7%">Stories</button>
-    <button class="dot" data-target="trend"      style="top:50%; left:78%">Now</button>
-    <button class="dot" data-target="style"      style="top:44%; left:60%">Style</button>
+    <div class="hotspot-layer">
+      <img
+        class="mobile-cover-image"
+        src="media/jajim-cover-mobile.jpg"
+        width="1882"
+        height="3344"
+        alt=""
+        aria-hidden="true"
+      />
+
+      <button class="dot" data-target="people" data-label="People" style="top:12%; left:19%">People</button>
+      <button class="dot" data-target="culture" data-label="Culture" style="top:22%; left:38%">Culture</button>
+      <button class="dot" data-target="experience" data-label="Stories" style="top:29%; left:7%">Stories</button>
+      <button class="dot" data-target="trend" data-label="Now" style="top:50%; left:78%">Now</button>
+      <button class="dot" data-target="style" data-label="Style" style="top:44%; left:60%">Style</button>
+    </div>
   </section>
 
   <script>
