@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261103-mobile-image-anchors" />
+  <link rel="stylesheet" href="styles.css?v=20261103-split-heroes" />
 </head>
 <body>
 
@@ -26,8 +26,17 @@
     <div class="reveal-layer" id="reveal" aria-hidden="true">
       <div class="reveal-grid"></div>
     </div>
+    <!-- Desktop hero controls: independent from mobile -->
+    <div class="desktop-hero">
+      <button class="dot" data-target="people"     style="top:12%; left:19%">People</button>
+      <button class="dot" data-target="culture"    style="top:22%; left:38%">Culture</button>
+      <button class="dot" data-target="experience" style="top:29%; left:7%">Stories</button>
+      <button class="dot" data-target="trend"      style="top:50%; left:78%">Now</button>
+      <button class="dot" data-target="style"      style="top:44%; left:60%">Style</button>
+    </div>
 
-    <div class="hotspot-layer">
+    <!-- Mobile hero controls: image-relative and independent from desktop -->
+    <div class="mobile-hero">
       <img
         class="mobile-cover-image"
         src="media/jajim-cover-mobile.jpg"
@@ -37,11 +46,11 @@
         aria-hidden="true"
       />
 
-      <button class="dot" data-target="people" data-label="People" style="top:12%; left:19%">People</button>
-      <button class="dot" data-target="culture" data-label="Culture" style="top:22%; left:38%">Culture</button>
-      <button class="dot" data-target="experience" data-label="Stories" style="top:29%; left:7%">Stories</button>
-      <button class="dot" data-target="trend" data-label="Now" style="top:50%; left:78%">Now</button>
-      <button class="dot" data-target="style" data-label="Style" style="top:44%; left:60%">Style</button>
+      <button class="dot" data-target="people" data-label="People">People</button>
+      <button class="dot" data-target="culture" data-label="Culture">Culture</button>
+      <button class="dot" data-target="experience" data-label="Stories">Stories</button>
+      <button class="dot" data-target="style" data-label="Style">Style</button>
+      <button class="dot" data-target="trend" data-label="Now">Now</button>
     </div>
   </section>
 
