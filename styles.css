@@ -1476,19 +1476,31 @@ a { color: inherit; text-decoration: none; }
 }
 
 
-/* ===== MOBILE IMAGE-ANCHORED HOTSPOTS =====
-   Tag: mobile image coordinate system
-   Description: On phones, the hero image and hotspots share one relative
-   container so percentage coordinates track the image at every screen width.
-   Desktop geometry remains unchanged. */
 
-.hotspot-layer {
+
+/* ===== SEPARATE DESKTOP / MOBILE HEROES =====
+   Tag: isolated responsive heroes
+   Description: Desktop and mobile use separate hotspot layers so editing
+   one layout cannot move the other layout's markers. */
+
+.desktop-hero {
   position: absolute;
   inset: 0;
+  display: block;
 }
 
-.mobile-cover-image {
+.mobile-hero {
   display: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-hero {
+    display: block;
+  }
+
+  .mobile-hero {
+    display: none;
+  }
 }
 
 @media (max-width: 767px) {
@@ -1499,9 +1511,13 @@ a { color: inherit; text-decoration: none; }
     background: #1a1a1a;
   }
 
-  .hotspot-layer {
+  .desktop-hero {
+    display: none;
+  }
+
+  .mobile-hero {
     position: relative;
-    inset: auto;
+    display: block;
     width: 100%;
   }
 
@@ -1511,8 +1527,8 @@ a { color: inherit; text-decoration: none; }
     height: auto;
   }
 
-  /* Dot coordinates are percentages of the rendered image, not the viewport. */
-  .cover:not(.touch-previewing) .dot {
+  .mobile-hero .dot {
+    position: absolute;
     width: 10px;
     height: 10px;
     padding: 0;
@@ -1522,14 +1538,13 @@ a { color: inherit; text-decoration: none; }
     overflow: visible;
   }
 
-  .cover:not(.touch-previewing) .dot::before {
+  .mobile-hero .dot::before {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
   }
 
-  /* Labels sit to the right without changing the dot's anchor point. */
-  .cover:not(.touch-previewing) .dot::after {
+  .mobile-hero .dot::after {
     content: attr(data-label);
     position: absolute;
     left: 18px;
@@ -1543,33 +1558,32 @@ a { color: inherit; text-decoration: none; }
     text-shadow: 0 1px 8px rgba(0,0,0,.7);
   }
 
-  .cover:not(.touch-previewing) .dot[data-target="people"] {
+  .mobile-hero .dot[data-target="people"] {
     left: 28.3% !important;
     top: 34.4% !important;
   }
 
-  .cover:not(.touch-previewing) .dot[data-target="culture"] {
+  .mobile-hero .dot[data-target="culture"] {
     left: 45.7% !important;
     top: 45.4% !important;
   }
 
-  .cover:not(.touch-previewing) .dot[data-target="experience"] {
+  .mobile-hero .dot[data-target="experience"] {
     left: 8.5% !important;
     top: 49.8% !important;
   }
 
-  .cover:not(.touch-previewing) .dot[data-target="style"] {
+  .mobile-hero .dot[data-target="style"] {
     left: 65.9% !important;
     top: 54.3% !important;
   }
 
-  .cover:not(.touch-previewing) .dot[data-target="trend"] {
+  .mobile-hero .dot[data-target="trend"] {
     left: 85% !important;
     top: 59.8% !important;
   }
 
-  /* Now is close to the right edge, so its label opens to the left. */
-  .cover:not(.touch-previewing) .dot[data-target="trend"]::after {
+  .mobile-hero .dot[data-target="trend"]::after {
     left: auto;
     right: 18px;
     text-align: right;
