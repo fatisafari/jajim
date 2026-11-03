@@ -1474,3 +1474,104 @@ a { color: inherit; text-decoration: none; }
     ) !important;
   }
 }
+
+
+/* ===== MOBILE IMAGE-ANCHORED HOTSPOTS =====
+   Tag: mobile image coordinate system
+   Description: On phones, the hero image and hotspots share one relative
+   container so percentage coordinates track the image at every screen width.
+   Desktop geometry remains unchanged. */
+
+.hotspot-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.mobile-cover-image {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .cover {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    background: #1a1a1a;
+  }
+
+  .hotspot-layer {
+    position: relative;
+    inset: auto;
+    width: 100%;
+  }
+
+  .mobile-cover-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Dot coordinates are percentages of the rendered image, not the viewport. */
+  .cover:not(.touch-previewing) .dot {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    font-size: 0;
+    line-height: 1;
+    transform: translate(-50%, -50%);
+    overflow: visible;
+  }
+
+  .cover:not(.touch-previewing) .dot::before {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Labels sit to the right without changing the dot's anchor point. */
+  .cover:not(.touch-previewing) .dot::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+    text-shadow: 0 1px 8px rgba(0,0,0,.7);
+  }
+
+  .cover:not(.touch-previewing) .dot[data-target="people"] {
+    left: 28.3% !important;
+    top: 34.4% !important;
+  }
+
+  .cover:not(.touch-previewing) .dot[data-target="culture"] {
+    left: 45.7% !important;
+    top: 45.4% !important;
+  }
+
+  .cover:not(.touch-previewing) .dot[data-target="experience"] {
+    left: 8.5% !important;
+    top: 49.8% !important;
+  }
+
+  .cover:not(.touch-previewing) .dot[data-target="style"] {
+    left: 65.9% !important;
+    top: 54.3% !important;
+  }
+
+  .cover:not(.touch-previewing) .dot[data-target="trend"] {
+    left: 85% !important;
+    top: 59.8% !important;
+  }
+
+  /* Now is close to the right edge, so its label opens to the left. */
+  .cover:not(.touch-previewing) .dot[data-target="trend"]::after {
+    left: auto;
+    right: 18px;
+    text-align: right;
+  }
+}
