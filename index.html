@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261103-mobile-final2" />
+  <link rel="stylesheet" href="styles.css?v=20261103-mobile-revert-nowfix" />
 </head>
 <body>
 
@@ -137,19 +137,6 @@
       }
       group.appendChild(cap);
 
-      // Tag: Mobile preview close control
-      // Description: Touch previews use one image and an explicit close button.
-      const close = document.createElement('button');
-      close.className = 'mobile-preview-close';
-      close.type = 'button';
-      close.setAttribute('aria-label', 'Close preview');
-      close.textContent = '×';
-      close.addEventListener('click', event => {
-        event.stopPropagation();
-        hide();
-      });
-      group.appendChild(close);
-
       reveal.appendChild(group);
       groups[key] = group;
     });
@@ -181,37 +168,7 @@
       }
     }
 
-    // Tag: Mobile preview placement
-    // Description: Position the single touch preview near the tapped image hotspot
-    // and clamp it inside the rendered hero/viewport.
-    function positionMobilePreview(btn, group) {
-      if (!btn || !group || !isTouch) return;
-
-      const coverRect = cover.getBoundingClientRect();
-      const dotRect = btn.getBoundingClientRect();
-      const viewportW = window.innerWidth;
-      const viewportH = window.innerHeight;
-      const previewW = viewportW * 0.46;
-      const previewH = Math.min(viewportH * 0.28, 220);
-      const gap = 14;
-
-      const dotX = dotRect.left + dotRect.width / 2 - coverRect.left;
-      const dotY = dotRect.top + dotRect.height / 2 - coverRect.top;
-
-      let left = dotX < coverRect.width / 2
-        ? dotX + gap
-        : dotX - previewW - gap;
-
-      let top = dotY - previewH / 2;
-
-      left = Math.max(8, Math.min(left, coverRect.width - previewW - 8));
-      top = Math.max(8, Math.min(top, coverRect.height - previewH - 8));
-
-      group.style.setProperty('--mobile-preview-left', left + 'px');
-      group.style.setProperty('--mobile-preview-top', top + 'px');
-    }
-
-    function show(key, sourceBtn = null) {
+    function show(key) {
       if (!groups[key]) return;
 
       if (active && active !== key) {
@@ -219,25 +176,19 @@
         setPlayback(groups[active], false);
       }
 
-      // Ensure only one preview and one visible hotspot is active.
-      Object.values(groups).forEach(group => group.classList.remove('on'));
-      dots.forEach(dot => dot.classList.remove('is-active'));
-
       active = key;
       cover.classList.add('revealing');
       groups[key].classList.add('on');
 
+      // Tag: Active section marker
+      // Description: Keep the selected dot above its preview on both desktop
+      // and mobile so the reveal clearly belongs to that section.
       dots.forEach(dot => {
-        const sameTarget = dot.dataset.target === key;
-        const sameSurface = isTouch
-          ? dot.closest('.mobile-hero') !== null
-          : dot.closest('.desktop-hero') !== null;
-        dot.classList.toggle('is-active', sameTarget && sameSurface);
+        dot.classList.toggle('is-active', dot.dataset.target === key);
       });
 
       if (isTouch) {
         cover.classList.add('touch-previewing');
-        positionMobilePreview(sourceBtn, groups[key]);
       }
 
       setPlayback(groups[key], true);
@@ -270,11 +221,11 @@
 
       if (!isTouch) {
         btn.addEventListener('mouseenter', () => {
-          if (!desktopLocked) show(key, btn);
+          if (!desktopLocked) show(key);
         });
 
         btn.addEventListener('focus', () => {
-          if (!desktopLocked) show(key, btn);
+          if (!desktopLocked) show(key);
         });
       }
 
@@ -289,16 +240,16 @@
 
           desktopLocked = true;
           cover.classList.add('desktop-previewing');
-          show(key, btn);
+          show(key);
           return;
         }
 
         if (active === key) {
-          hide();
+          location.href = 'category.html?cat=' + key;
           return;
         }
 
-        show(key, btn);
+        show(key);
       });
     });
 
@@ -314,7 +265,7 @@
     } else {
       // Tapping the cover away from a dot closes the preview immediately.
       cover.addEventListener('click', event => {
-        if (!event.target.closest('.dot') && !event.target.closest('.mobile-preview-close')) hide();
+        if (!event.target.closest('.dot')) hide();
       });
     }
   </script>
