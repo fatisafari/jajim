@@ -1429,6 +1429,39 @@ a { color: inherit; text-decoration: none; }
 }
 
 
+
+/* ===== MOBILE HOTSPOT POSITIONS =====
+   Tag: mobile semantic hotspots
+   Description: The mobile cover uses a portrait composition, so each label
+   gets its own phone position while staying next to the same related object
+   as on desktop. */
+@media (max-width: 760px) {
+  .cover:not(.touch-previewing) .dot[data-target="people"] {
+    top: 34% !important;
+    left: 28% !important;
+  }
+
+  .cover:not(.touch-previewing) .dot[data-target="culture"] {
+    top: 39% !important;
+    left: 72% !important;
+  }
+
+  .cover:not(.touch-previewing) .dot[data-target="experience"] {
+    top: 50% !important;
+    left: 22% !important;
+  }
+
+  .cover:not(.touch-previewing) .dot[data-target="trend"] {
+    top: 50% !important;
+    left: 60% !important;
+  }
+
+  .cover:not(.touch-previewing) .dot[data-target="style"] {
+    top: 68% !important;
+    left: 58% !important;
+  }
+}
+
 /* ===== MOBILE REVEAL DARKENING =====
    Tag: mobile preview darkness
    Description: Match the desktop dark overlay while a mobile preview/grid is open. */
