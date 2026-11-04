@@ -1690,3 +1690,17 @@ a { color: inherit; text-decoration: none; }
     left: 98% !important;
   }
 }
+
+
+/* ===== MOBILE HOTSPOT NUDGE 10 =====
+   Tag: requested mobile-only position tweak
+   Description: Move Culture 10% up and Now 10% right. No other styles changed. */
+@media (max-width: 767px) {
+  .mobile-hero .dot[data-target="culture"] {
+    top: 25.6% !important;
+  }
+
+  .mobile-hero .dot[data-target="trend"] {
+    left: 108% !important;
+  }
+}
