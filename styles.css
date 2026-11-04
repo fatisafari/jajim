@@ -1736,3 +1736,18 @@ a { color: inherit; text-decoration: none; }
     top: 61.2% !important;
   }
 }
+
+/* ===== MOBILE HOTSPOT FINAL NUDGE =====
+   Tag: mobile final position adjustment
+   Description: Move Culture 1% down and Now 2% down from the latest approved mobile positions. */
+@media (max-width: 767px) {
+  .cover:not(.touch-previewing) .mobile-hero .dot[data-target="culture"] {
+    left: 43.7% !important;
+    top: 43.5% !important;
+  }
+
+  .cover:not(.touch-previewing) .mobile-hero .dot[data-target="trend"] {
+    left: 87.5% !important;
+    top: 67.2% !important;
+  }
+}
