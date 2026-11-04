@@ -1704,3 +1704,19 @@ a { color: inherit; text-decoration: none; }
     left: 108% !important;
   }
 }
+
+
+/* ===== MOBILE HOTSPOT SPECIFICITY FIX =====
+   Tag: mobile hotspot final position override
+   Description: Override older high-specificity mobile rules for Culture and Now only. */
+@media (max-width: 767px) {
+  .cover:not(.touch-previewing) .mobile-hero .dot[data-target="culture"] {
+    left: 42.7% !important;
+    top: 44.6% !important;
+  }
+
+  .cover:not(.touch-previewing) .mobile-hero .dot[data-target="trend"] {
+    left: 81% !important;
+    top: 61.2% !important;
+  }
+}
