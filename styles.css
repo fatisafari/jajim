@@ -1972,3 +1972,78 @@ a { color: inherit; text-decoration: none; }
     object-fit: contain !important;
   }
 }
+
+/* ===== DESKTOP EDITORIAL ASYMMETRY V3 =====
+   Tag: larger asymmetric desktop previews
+   Description: Make preview media larger and intentionally uneven in scale
+   and vertical placement. One asset leads, the other supports; native aspect
+   ratios are preserved and mobile remains unchanged. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  /* PEOPLE */
+  .reveal-group[data-thread="people"] > figure.reveal-tile:nth-of-type(1) {
+    left: 58% !important;
+    top: 8% !important;
+    width: 36vw !important;
+  }
+  .reveal-group[data-thread="people"] > figure.reveal-tile:nth-of-type(2) {
+    left: 6% !important;
+    top: 58% !important;
+    width: 29vw !important;
+  }
+
+  /* CULTURE */
+  .reveal-group[data-thread="culture"] > figure.reveal-tile:nth-of-type(1) {
+    left: 4% !important;
+    top: 10% !important;
+    width: 31vw !important;
+  }
+  .reveal-group[data-thread="culture"] > figure.reveal-tile:nth-of-type(2) {
+    left: 61% !important;
+    top: 48% !important;
+    width: 35vw !important;
+  }
+
+  /* STORIES */
+  .reveal-group[data-thread="experience"] > figure.reveal-tile:nth-of-type(1) {
+    left: 5% !important;
+    top: 46% !important;
+    width: 40vw !important;
+  }
+  .reveal-group[data-thread="experience"] > figure.reveal-tile:nth-of-type(2) {
+    left: 69% !important;
+    top: 8% !important;
+    width: 25vw !important;
+  }
+
+  /* NOW */
+  .reveal-group[data-thread="trend"] > figure.reveal-tile:nth-of-type(1) {
+    left: 60% !important;
+    top: 9% !important;
+    width: 37vw !important;
+  }
+  .reveal-group[data-thread="trend"] > figure.reveal-tile:nth-of-type(2) {
+    left: 7% !important;
+    top: 60% !important;
+    width: 28vw !important;
+  }
+
+  /* STYLE */
+  .reveal-group[data-thread="style"] > figure.reveal-tile:nth-of-type(1) {
+    left: 5% !important;
+    top: 10% !important;
+    width: 30vw !important;
+  }
+  .reveal-group[data-thread="style"] > figure.reveal-tile:nth-of-type(2) {
+    left: 60% !important;
+    top: 49% !important;
+    width: 37vw !important;
+  }
+
+  .reveal-group > figure.reveal-tile img,
+  .reveal-group > figure.reveal-tile video {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 46vh !important;
+    object-fit: contain !important;
+  }
+}
