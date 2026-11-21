@@ -2200,3 +2200,46 @@ a { color: inherit; text-decoration: none; }
     pointer-events: auto !important;
   }
 }
+
+/* ===== DESKTOP FOCUSED PREVIEW LIKE MOBILE =====
+   Tag: desktop mobile-parity preview
+   Description: When a desktop hotspot is hovered/opened, keep only the active
+   hotspot, move it to the center, and keep the section's two media around it.
+   The normal desktop cover layout remains unchanged before hover. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .cover.revealing .desktop-hero .dot:not(.is-active) {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .cover.revealing .desktop-hero .dot.is-active {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 40 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Keep preview media clearly away from the centered active point. */
+  .cover.revealing .reveal-group.on > figure.reveal-tile:nth-of-type(1) {
+    left: 4% !important;
+    top: 8% !important;
+    width: 38vw !important;
+    height: 31vh !important;
+  }
+
+  .cover.revealing .reveal-group.on > figure.reveal-tile:nth-of-type(2) {
+    left: 58% !important;
+    top: 61% !important;
+    width: 38vw !important;
+    height: 29vh !important;
+  }
+
+  .cover.revealing .reveal-group.on > figure.reveal-tile img,
+  .cover.revealing .reveal-group.on > figure.reveal-tile video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+}
