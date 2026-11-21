@@ -342,6 +342,15 @@
     });
 
     if (!isTouch) {
+      // Tag: Desktop hover boundary
+      // Description: Close the preview as soon as the pointer is no longer
+      // over a hotspot, even if preview layers/layout changed after opening.
+      cover.addEventListener('pointermove', event => {
+        if (active && !event.target.closest('.dot')) {
+          hide();
+        }
+      });
+
       cover.addEventListener('mouseleave', hide);
     } else {
       // Tapping the cover away from a dot closes the preview immediately.
