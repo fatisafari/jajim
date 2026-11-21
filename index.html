@@ -311,6 +311,10 @@
           if (!desktopLocked) show(key);
         });
 
+        btn.addEventListener('mouseleave', () => {
+          if (!desktopLocked && active === key) hide();
+        });
+
         btn.addEventListener('focus', () => {
           if (!desktopLocked) show(key);
         });
