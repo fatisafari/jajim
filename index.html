@@ -254,18 +254,6 @@
       cover.classList.add('revealing');
       groups[key].classList.add('on');
 
-      // Wait for layout/media dimensions, then hide only bullets actually
-      // covered by the opened desktop media.
-      if (!isTouch) {
-        clearCoveredDesktopDots();
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            keepMediaAwayFromActiveDot(groups[key], key);
-            updateCoveredDesktopDots(groups[key], key);
-          });
-        });
-      }
-
       // Tag: Active section marker
       // Description: Keep the selected dot above its preview on both desktop
       // and mobile so the reveal clearly belongs to that section.
@@ -307,21 +295,11 @@
       const key = btn.dataset.target;
 
       if (!isTouch) {
-        btn.addEventListener('mouseenter', () => {
-          show(key);
-        });
-
-        btn.addEventListener('mouseleave', () => {
-          if (active === key) hide();
-        });
-
-        btn.addEventListener('focus', () => {
-          show(key);
-        });
-
-        btn.addEventListener('blur', () => {
-          if (active === key) hide();
-        });
+        // Tag: Stable desktop hover preview
+        // Description: Open only while the pointer is physically over this hotspot.
+        // Leaving the hotspot closes the preview immediately; no lock or extra tracking.
+        btn.addEventListener('mouseenter', () => show(key));
+        btn.addEventListener('mouseleave', hide);
       }
 
       btn.addEventListener('click', event => {
@@ -342,7 +320,7 @@
     });
 
     if (!isTouch) {
-      cover.addEventListener('mouseleave', hide);
+      // Desktop preview lifetime is controlled only by hotspot hover.
     } else {
       // Tapping the cover away from a dot closes the preview immediately.
       cover.addEventListener('click', event => {
