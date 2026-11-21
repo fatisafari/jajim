@@ -2094,3 +2094,93 @@ a { color: inherit; text-decoration: none; }
     max-height: 56vh !important;
   }
 }
+
+/* ===== DESKTOP WIDE SAFE-ZONE PREVIEWS V5 =====
+   Tag: wide desktop preview layout
+   Description: Use larger, more rectangular editorial frames and place them
+   in lower-collision zones so they are less likely to cover hotspot labels.
+   Preserve native media ratio with object-fit: contain. Mobile is unchanged. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  /* Shared wide-frame behavior */
+  .reveal-group > figure.reveal-tile {
+    overflow: visible !important;
+  }
+
+  .reveal-group > figure.reveal-tile img,
+  .reveal-group > figure.reveal-tile video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    background: transparent !important;
+  }
+
+  /* PEOPLE */
+  .reveal-group[data-thread="people"] > figure.reveal-tile:nth-of-type(1) {
+    left: 57% !important;
+    top: 7% !important;
+    width: 39vw !important;
+    height: 29vh !important;
+  }
+  .reveal-group[data-thread="people"] > figure.reveal-tile:nth-of-type(2) {
+    left: 5% !important;
+    top: 63% !important;
+    width: 37vw !important;
+    height: 27vh !important;
+  }
+
+  /* CULTURE */
+  .reveal-group[data-thread="culture"] > figure.reveal-tile:nth-of-type(1) {
+    left: 4% !important;
+    top: 8% !important;
+    width: 38vw !important;
+    height: 30vh !important;
+  }
+  .reveal-group[data-thread="culture"] > figure.reveal-tile:nth-of-type(2) {
+    left: 59% !important;
+    top: 57% !important;
+    width: 39vw !important;
+    height: 29vh !important;
+  }
+
+  /* STORIES */
+  .reveal-group[data-thread="experience"] > figure.reveal-tile:nth-of-type(1) {
+    left: 4% !important;
+    top: 61% !important;
+    width: 42vw !important;
+    height: 29vh !important;
+  }
+  .reveal-group[data-thread="experience"] > figure.reveal-tile:nth-of-type(2) {
+    left: 68% !important;
+    top: 7% !important;
+    width: 29vw !important;
+    height: 31vh !important;
+  }
+
+  /* NOW */
+  .reveal-group[data-thread="trend"] > figure.reveal-tile:nth-of-type(1) {
+    left: 57% !important;
+    top: 6% !important;
+    width: 41vw !important;
+    height: 30vh !important;
+  }
+  .reveal-group[data-thread="trend"] > figure.reveal-tile:nth-of-type(2) {
+    left: 4% !important;
+    top: 64% !important;
+    width: 35vw !important;
+    height: 26vh !important;
+  }
+
+  /* STYLE */
+  .reveal-group[data-thread="style"] > figure.reveal-tile:nth-of-type(1) {
+    left: 4% !important;
+    top: 7% !important;
+    width: 36vw !important;
+    height: 31vh !important;
+  }
+  .reveal-group[data-thread="style"] > figure.reveal-tile:nth-of-type(2) {
+    left: 58% !important;
+    top: 60% !important;
+    width: 40vw !important;
+    height: 28vh !important;
+  }
+}
