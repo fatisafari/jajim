@@ -146,6 +146,36 @@
     let previewTimer = null;
     let desktopLocked = false;
 
+    // Tag: Desktop hotspot collision
+    // Description: Hide only desktop bullets whose visible label area is
+    // physically covered by an opened preview tile. Mobile is untouched.
+    function updateCoveredDesktopDots(group) {
+      if (isTouch || !group) return;
+
+      const desktopDots = [...document.querySelectorAll('.desktop-hero .dot')];
+      const tiles = [...group.querySelectorAll('.reveal-tile')];
+
+      desktopDots.forEach(dot => {
+        const dotRect = dot.getBoundingClientRect();
+        const covered = tiles.some(tile => {
+          const tileRect = tile.getBoundingClientRect();
+          return (
+            dotRect.left < tileRect.right &&
+            dotRect.right > tileRect.left &&
+            dotRect.top < tileRect.bottom &&
+            dotRect.bottom > tileRect.top
+          );
+        });
+
+        dot.classList.toggle('is-covered', covered);
+      });
+    }
+
+    function clearCoveredDesktopDots() {
+      document.querySelectorAll('.desktop-hero .dot.is-covered')
+        .forEach(dot => dot.classList.remove('is-covered'));
+    }
+
     function setPlayback(group, playing) {
       if (!group) return;
       group.querySelectorAll('video').forEach(v => {
@@ -180,6 +210,15 @@
       cover.classList.add('revealing');
       groups[key].classList.add('on');
 
+      // Wait for layout/media dimensions, then hide only bullets actually
+      // covered by the opened desktop media.
+      if (!isTouch) {
+        clearCoveredDesktopDots();
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => updateCoveredDesktopDots(groups[key]));
+        });
+      }
+
       // Tag: Active section marker
       // Description: Keep the selected dot above its preview on both desktop
       // and mobile so the reveal clearly belongs to that section.
@@ -208,6 +247,7 @@
       cover.classList.remove('touch-previewing');
       cover.classList.remove('desktop-previewing');
       dots.forEach(dot => dot.classList.remove('is-active'));
+      clearCoveredDesktopDots();
       desktopLocked = false;
     }
 
