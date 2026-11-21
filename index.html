@@ -300,23 +300,27 @@
 
     // Tag: Cover navigation
     // Description:
-    // Desktop: hover previews from the dot. First click locks that preview in
-    // place; clicking the same dot again opens its category.
+    // Desktop: hover previews only; leaving the point closes immediately.
+    // Clicking a desktop point opens its category directly.
     // Mobile: first tap previews for 10 seconds; second tap opens the category.
     dots.forEach(btn => {
       const key = btn.dataset.target;
 
       if (!isTouch) {
         btn.addEventListener('mouseenter', () => {
-          if (!desktopLocked) show(key);
+          show(key);
         });
 
         btn.addEventListener('mouseleave', () => {
-          if (!desktopLocked && active === key) hide();
+          if (active === key) hide();
         });
 
         btn.addEventListener('focus', () => {
-          if (!desktopLocked) show(key);
+          show(key);
+        });
+
+        btn.addEventListener('blur', () => {
+          if (active === key) hide();
         });
       }
 
@@ -324,14 +328,7 @@
         event.stopPropagation();
 
         if (!isTouch) {
-          if (desktopLocked && active === key) {
-            location.href = 'category.html?cat=' + key;
-            return;
-          }
-
-          desktopLocked = true;
-          cover.classList.add('desktop-previewing');
-          show(key);
+          location.href = 'category.html?cat=' + key;
           return;
         }
 
@@ -345,14 +342,7 @@
     });
 
     if (!isTouch) {
-      cover.addEventListener('mouseleave', () => {
-        if (!desktopLocked) hide();
-      });
-
-      // Clicking empty cover space releases a locked desktop preview.
-      cover.addEventListener('click', event => {
-        if (desktopLocked && !event.target.closest('.dot')) hide();
-      });
+      cover.addEventListener('mouseleave', hide);
     } else {
       // Tapping the cover away from a dot closes the preview immediately.
       cover.addEventListener('click', event => {
