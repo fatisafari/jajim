@@ -296,10 +296,19 @@
 
       if (!isTouch) {
         // Tag: Stable desktop hover preview
-        // Description: Open only while the pointer is physically over this hotspot.
-        // Leaving the hotspot closes the preview immediately; no lock or extra tracking.
-        btn.addEventListener('mouseenter', () => show(key));
-        btn.addEventListener('mouseleave', hide);
+        // Description: Open while the hotspot is hovered. On leave, defer one frame
+        // and close only if the pointer is truly no longer over the same hotspot.
+        btn.addEventListener('mouseenter', () => {
+          show(key);
+        });
+
+        btn.addEventListener('mouseleave', () => {
+          requestAnimationFrame(() => {
+            if (active === key && !btn.matches(':hover')) {
+              hide();
+            }
+          });
+        });
       }
 
       btn.addEventListener('click', event => {
