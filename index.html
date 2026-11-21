@@ -149,22 +149,66 @@
     // Tag: Desktop hotspot collision
     // Description: Hide only desktop bullets whose visible label area is
     // physically covered by an opened preview tile. Mobile is untouched.
-    function updateCoveredDesktopDots(group) {
+    function rectsOverlap(a, b, gap = 0) {
+      return (
+        a.left < b.right + gap &&
+        a.right > b.left - gap &&
+        a.top < b.bottom + gap &&
+        a.bottom > b.top - gap
+      );
+    }
+
+    function keepMediaAwayFromActiveDot(group, key) {
+      if (isTouch || !group) return;
+
+      const activeDot = document.querySelector(`.desktop-hero .dot[data-target="${key}"]`);
+      if (!activeDot) return;
+
+      const dotRect = activeDot.getBoundingClientRect();
+      const safetyGap = 22;
+
+      group.querySelectorAll('.reveal-tile').forEach(tile => {
+        tile.style.removeProperty('left');
+        tile.style.removeProperty('top');
+
+        const tileRect = tile.getBoundingClientRect();
+        if (!rectsOverlap(dotRect, tileRect, safetyGap)) return;
+
+        const coverRect = cover.getBoundingClientRect();
+        const moveRight = (dotRect.right + safetyGap) - tileRect.left;
+        const moveLeft = tileRect.right - (dotRect.left - safetyGap);
+        const roomRight = coverRect.right - tileRect.right;
+        const roomLeft = tileRect.left - coverRect.left;
+
+        let newLeft;
+        if (roomRight >= moveRight || roomRight >= roomLeft) {
+          newLeft = tileRect.left - coverRect.left + moveRight;
+        } else {
+          newLeft = tileRect.left - coverRect.left - moveLeft;
+        }
+
+        const maxLeft = Math.max(0, coverRect.width - tileRect.width);
+        newLeft = Math.min(Math.max(0, newLeft), maxLeft);
+        tile.style.left = `${newLeft}px`;
+      });
+    }
+
+    function updateCoveredDesktopDots(group, activeKey) {
       if (isTouch || !group) return;
 
       const desktopDots = [...document.querySelectorAll('.desktop-hero .dot')];
       const tiles = [...group.querySelectorAll('.reveal-tile')];
 
       desktopDots.forEach(dot => {
+        if (dot.dataset.target === activeKey) {
+          dot.classList.remove('is-covered');
+          return;
+        }
+
         const dotRect = dot.getBoundingClientRect();
         const covered = tiles.some(tile => {
           const tileRect = tile.getBoundingClientRect();
-          return (
-            dotRect.left < tileRect.right &&
-            dotRect.right > tileRect.left &&
-            dotRect.top < tileRect.bottom &&
-            dotRect.bottom > tileRect.top
-          );
+          return rectsOverlap(dotRect, tileRect);
         });
 
         dot.classList.toggle('is-covered', covered);
@@ -215,7 +259,10 @@
       if (!isTouch) {
         clearCoveredDesktopDots();
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => updateCoveredDesktopDots(groups[key]));
+          requestAnimationFrame(() => {
+            keepMediaAwayFromActiveDot(groups[key], key);
+            updateCoveredDesktopDots(groups[key], key);
+          });
         });
       }
 
