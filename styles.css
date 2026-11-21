@@ -2243,3 +2243,39 @@ a { color: inherit; text-decoration: none; }
     object-fit: contain !important;
   }
 }
+
+/* ===== DESKTOP ACTIVE HOTSPOT STAYS IN PLACE =====
+   Tag: desktop hover preview position
+   Description: Keep the active desktop hotspot at its original location.
+   Other hotspots stay hidden while preview media is open. Mobile is unchanged. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .cover.revealing .desktop-hero .dot.is-active {
+    left: var(--keep-left, auto);
+    top: var(--keep-top, auto);
+  }
+
+  .desktop-hero .dot[data-target="people"].is-active {
+    left: 31% !important;
+    top: 24% !important;
+  }
+
+  .desktop-hero .dot[data-target="culture"].is-active {
+    left: 47% !important;
+    top: 42% !important;
+  }
+
+  .desktop-hero .dot[data-target="experience"].is-active {
+    left: 23% !important;
+    top: 53% !important;
+  }
+
+  .desktop-hero .dot[data-target="trend"].is-active {
+    left: 72% !important;
+    top: 73% !important;
+  }
+
+  .desktop-hero .dot[data-target="style"].is-active {
+    left: 60% !important;
+    top: 66% !important;
+  }
+}
