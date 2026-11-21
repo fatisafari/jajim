@@ -2184,3 +2184,19 @@ a { color: inherit; text-decoration: none; }
     height: 28vh !important;
   }
 }
+
+/* ===== DESKTOP SINGLE ACTIVE HOTSPOT =====
+   Tag: focused desktop preview navigation
+   Description: While a desktop preview is open, hide every non-active hotspot.
+   Keep only the selected section point visible. Mobile behavior is unchanged. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .cover.revealing .desktop-hero .dot:not(.is-active) {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .cover.revealing .desktop-hero .dot.is-active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
