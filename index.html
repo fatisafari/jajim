@@ -109,7 +109,7 @@
           media.src = src;
           media.muted = true; media.loop = true;
           media.playsInline = true;
-          media.preload = 'none';   // fetch only on first hover, not on page load
+          media.preload = 'auto';   // prefetch preview videos so hover playback starts immediately
           media.setAttribute('muted', '');
           media.setAttribute('playsinline', '');
         } else {
@@ -220,12 +220,34 @@
         .forEach(dot => dot.classList.remove('is-covered'));
     }
 
+    // Tag: Instant preview playback
+    // Description: Preview videos are preloaded and resume without seeking to
+    // zero on every hover, avoiding the visible playback delay/rebuffer.
     function setPlayback(group, playing) {
       if (!group) return;
       group.querySelectorAll('video').forEach(v => {
-        if (playing) { v.currentTime = 0; v.play().catch(() => {}); }
-        else v.pause();
+        if (playing) {
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+        }
       });
+    }
+
+    // Tag: Preview media prewarm
+    // Description: Ask the browser to fetch video data shortly after the page
+    // becomes idle, reducing first-hover latency without blocking rendering.
+    function prewarmPreviewVideos() {
+      document.querySelectorAll('.reveal-group video').forEach(v => {
+        v.preload = 'auto';
+        v.load();
+      });
+    }
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(prewarmPreviewVideos, { timeout: 1200 });
+    } else {
+      setTimeout(prewarmPreviewVideos, 300);
     }
 
     function clearPreviewTimer() {
