@@ -2352,3 +2352,20 @@ a { color: inherit; text-decoration: none; }
     object-position: center !important;
   }
 }
+
+
+/* ===== PEOPLE PREVIEW — COMPACT SQUARE-LEANING FRAMES =====
+   Tag: People desktop compact sizing
+   Description: Reduce People preview widths so both assets feel more compact
+   and closer to square, while preserving their existing positions and crop. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .reveal-group[data-thread="people"] > figure.reveal-tile:nth-of-type(1) {
+    width: 31vw !important;
+    height: 31vh !important;
+  }
+
+  .reveal-group[data-thread="people"] > figure.reveal-tile:nth-of-type(2) {
+    width: 30vw !important;
+    height: 30vh !important;
+  }
+}
