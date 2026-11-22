@@ -2369,3 +2369,21 @@ a { color: inherit; text-decoration: none; }
     height: 30vh !important;
   }
 }
+
+
+/* ===== PEOPLE PREVIEW — GRID UNIT SIZING =====
+   Tag: People desktop grid-unit sizing
+   Description: Size People preview media using the visible 6.25vw grid.
+   03.mp4 = 5 x 2.5 grid units; 04.jpg = 5.5 x 3.25 grid units.
+   Existing positions and crop behavior are preserved. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .reveal-group[data-thread="people"] > figure.reveal-tile:nth-of-type(1) {
+    width: 31.25vw !important;
+    height: 15.625vw !important;
+  }
+
+  .reveal-group[data-thread="people"] > figure.reveal-tile:nth-of-type(2) {
+    width: 34.375vw !important;
+    height: 20.3125vw !important;
+  }
+}
